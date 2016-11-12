@@ -1,0 +1,323 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F7470C0C1DD68D1E0062E885 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */; };
+		F7470C0E1DD68D1E0062E885 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C0D1DD68D1E0062E885 /* ViewController.swift */; };
+		F7470C111DD68D1E0062E885 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7470C0F1DD68D1E0062E885 /* Main.storyboard */; };
+		F7470C131DD68D1E0062E885 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7470C121DD68D1E0062E885 /* Assets.xcassets */; };
+		F7470C161DD68D1E0062E885 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7470C141DD68D1E0062E885 /* LaunchScreen.storyboard */; };
+		F7470C211DD68DFF0062E885 /* SpeechRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */; };
+		F7470C231DD694290062E885 /* Unique.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C221DD694290062E885 /* Unique.Utilities.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F7470C081DD68D1E0062E885 /* LPCMrecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LPCMrecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F7470C0D1DD68D1E0062E885 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F7470C101DD68D1E0062E885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F7470C121DD68D1E0062E885 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F7470C151DD68D1E0062E885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F7470C171DD68D1E0062E885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeechRecorder.swift; path = Recorders/SpeechRecorder.swift; sourceTree = "<group>"; };
+		F7470C221DD694290062E885 /* Unique.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unique.Utilities.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F7470C051DD68D1E0062E885 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F7470BFF1DD68D1E0062E885 = {
+			isa = PBXGroup;
+			children = (
+				F7470C0A1DD68D1E0062E885 /* LPCMrecorder */,
+				F7470C091DD68D1E0062E885 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F7470C091DD68D1E0062E885 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F7470C081DD68D1E0062E885 /* LPCMrecorder.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7470C0A1DD68D1E0062E885 /* LPCMrecorder */ = {
+			isa = PBXGroup;
+			children = (
+				F7470C1D1DD68D2D0062E885 /* Recorder */,
+				F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */,
+				F7470C0D1DD68D1E0062E885 /* ViewController.swift */,
+				F7470C221DD694290062E885 /* Unique.Utilities.swift */,
+				F7470C0F1DD68D1E0062E885 /* Main.storyboard */,
+				F7470C121DD68D1E0062E885 /* Assets.xcassets */,
+				F7470C141DD68D1E0062E885 /* LaunchScreen.storyboard */,
+				F7470C171DD68D1E0062E885 /* Info.plist */,
+			);
+			path = LPCMrecorder;
+			sourceTree = "<group>";
+		};
+		F7470C1D1DD68D2D0062E885 /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */,
+			);
+			name = Recorder;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F7470C071DD68D1E0062E885 /* LPCMrecorder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7470C1A1DD68D1E0062E885 /* Build configuration list for PBXNativeTarget "LPCMrecorder" */;
+			buildPhases = (
+				F7470C041DD68D1E0062E885 /* Sources */,
+				F7470C051DD68D1E0062E885 /* Frameworks */,
+				F7470C061DD68D1E0062E885 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LPCMrecorder;
+			productName = LPCMrecorder;
+			productReference = F7470C081DD68D1E0062E885 /* LPCMrecorder.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F7470C001DD68D1E0062E885 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = LC;
+				TargetAttributes = {
+					F7470C071DD68D1E0062E885 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = LM8B99RWJA;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F7470C031DD68D1E0062E885 /* Build configuration list for PBXProject "LPCMrecorder" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F7470BFF1DD68D1E0062E885;
+			productRefGroup = F7470C091DD68D1E0062E885 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F7470C071DD68D1E0062E885 /* LPCMrecorder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F7470C061DD68D1E0062E885 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7470C161DD68D1E0062E885 /* LaunchScreen.storyboard in Resources */,
+				F7470C131DD68D1E0062E885 /* Assets.xcassets in Resources */,
+				F7470C111DD68D1E0062E885 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F7470C041DD68D1E0062E885 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7470C0E1DD68D1E0062E885 /* ViewController.swift in Sources */,
+				F7470C211DD68DFF0062E885 /* SpeechRecorder.swift in Sources */,
+				F7470C231DD694290062E885 /* Unique.Utilities.swift in Sources */,
+				F7470C0C1DD68D1E0062E885 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F7470C0F1DD68D1E0062E885 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7470C101DD68D1E0062E885 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F7470C141DD68D1E0062E885 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7470C151DD68D1E0062E885 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F7470C181DD68D1E0062E885 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F7470C191DD68D1E0062E885 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F7470C1B1DD68D1E0062E885 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = LM8B99RWJA;
+				INFOPLIST_FILE = LPCMrecorder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = LC.LPCMrecorder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F7470C1C1DD68D1E0062E885 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = LM8B99RWJA;
+				INFOPLIST_FILE = LPCMrecorder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = LC.LPCMrecorder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F7470C031DD68D1E0062E885 /* Build configuration list for PBXProject "LPCMrecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7470C181DD68D1E0062E885 /* Debug */,
+				F7470C191DD68D1E0062E885 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7470C1A1DD68D1E0062E885 /* Build configuration list for PBXNativeTarget "LPCMrecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7470C1B1DD68D1E0062E885 /* Debug */,
+				F7470C1C1DD68D1E0062E885 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F7470C001DD68D1E0062E885 /* Project object */;
+}
