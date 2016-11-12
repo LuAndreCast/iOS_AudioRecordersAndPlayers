@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         
         //having same recorder gives error
         recorder = SpeechRecorder()
-        
     }
 
     

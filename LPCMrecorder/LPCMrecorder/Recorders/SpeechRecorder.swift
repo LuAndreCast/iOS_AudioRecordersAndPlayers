@@ -125,6 +125,7 @@ class SpeechRecorder: NSObject {
                                                                       bufferQueue.pointee.mAudioData)
                     if outputStream != 0
                     {
+                        print("Error with AudioFileWritePackets")
                         //<----DEBUG
                         switch outputStream
                         {
@@ -190,6 +191,7 @@ class SpeechRecorder: NSObject {
                     let outputStream:OSStatus = AudioQueueEnqueueBuffer(audioQueue, bufferQueue, 0, nil)
                     if outputStream != 0
                     {
+                        print("Error with AudioQueueEnqueueBuffer")
                         //<----DEBUG
                         switch outputStream
                         {
