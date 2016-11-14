@@ -5,9 +5,9 @@ import CoreAudio
 import AudioToolbox
 
 
-class SpeechRecorder: NSObject {
+class SpeechRecorderV2: NSObject {
     
-    static let sharedInstance = SpeechRecorder()
+    static let sharedInstance = SpeechRecorderV2()
     
     // MARK:- properties
     @objc enum Status: Int {
@@ -26,6 +26,7 @@ class SpeechRecorder: NSObject {
     };
     
     private var recordState: RecordState?
+    private var audioURL:URL?
     
     var format: AudioFormatID {
         get { return recordState!.format.mFormatID }
@@ -68,7 +69,7 @@ class SpeechRecorder: NSObject {
     }
     
     //MARK: - Handlers
-    public var handler: ((Status) -> Void)?
+    public var handler: ((_ status:Status, _ data:NSData?, _ errorDesc:String?) -> Void)?
     
     // MARK:- Init
     override init()
@@ -82,15 +83,36 @@ class SpeechRecorder: NSObject {
                                        recording: false)
     }//eom
     
-   
+    
     
     // MARK:- OutputFile
-    func setOutputFile(path: String)
+    private func getDocumentsPath()->URL
     {
-        setOutputFile(url: URL(fileURLWithPath: path))
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
     }
     
-    func setOutputFile(url: URL)
+    func setOutputFileNameWithDocumentsDirectory(nameDesired:String)
+    {
+        audioURL = getDocumentsPath().appendingPathComponent(nameDesired)
+        setOutputFile(url: audioURL!)
+    }//eom
+    
+    func setOutputFileNameWithTempDirectory(nameDesired:String)
+    {
+        let tempDir = NSTemporaryDirectory()
+        let tempURLdir = URL(fileURLWithPath: tempDir)
+        audioURL = tempURLdir.appendingPathComponent(nameDesired)
+        setOutputFile(url: audioURL!)
+    }//eom
+
+    private func setOutputFile(path: String)
+    {
+        setOutputFile(url: URL(fileURLWithPath: path))
+    }//eom
+    
+    private func setOutputFile(url: URL)
     {
         AudioFileCreateWithURL(url as CFURL,
                                kAudioFileWAVEType,
@@ -102,7 +124,9 @@ class SpeechRecorder: NSObject {
     // MARK:- Start / Stop Recording
     func start()
     {
-        handler?(.busy)
+        handler?(.busy, nil, nil)
+        
+        self.recordState?.currentPacket = 0
         
         let inputAudioQueue: AudioQueueInputCallback =
             { (userData: UnsafeMutableRawPointer?,
@@ -129,57 +153,57 @@ class SpeechRecorder: NSObject {
                         //<----DEBUG
                         switch outputStream
                         {
-                            case kAudioFilePermissionsError:
-                                print("kAudioFilePermissionsError")
-                                break
-                            case kAudioFileNotOptimizedError:
-                                print("kAudioFileNotOptimizedError")
-                                break
-                            case kAudioFileInvalidChunkError:
-                                print("kAudioFileInvalidChunkError")
-                                break
-                            case kAudioFileDoesNotAllow64BitDataSizeError:
-                                print("kAudioFileDoesNotAllow64BitDataSizeError")
-                                break
-                            case kAudioFileInvalidPacketOffsetError:
-                                print("kAudioFileInvalidPacketOffsetError")
-                                break
-                            case kAudioFileInvalidFileError:
-                                print("kAudioFileInvalidFileError")
-                                break
-                            case kAudioFileOperationNotSupportedError:
-                                print("kAudioFileOperationNotSupportedError")
-                                break
-                            case kAudioFileNotOpenError:
-                                print("kAudioFileNotOpenError")
-                                break
-                            case kAudioFileEndOfFileError:
-                                print("kAudioFileEndOfFileError")
-                                break
-                            case kAudioFilePositionError:
-                                print("kAudioFilePositionError")
-                                break
-                            case kAudioFileFileNotFoundError:
-                                print("kAudioFileFileNotFoundError")
-                                break
-                            case kAudioFileUnspecifiedError:
-                                print("kAudioFileUnspecifiedError")
-                                break
-                            case kAudioFileUnsupportedFileTypeError:
-                                print("kAudioFileUnsupportedFileTypeError")
-                                break
-                            case kAudioFileUnsupportedDataFormatError:
-                                print("kAudioFileUnsupportedDataFormatError")
-                                break
-                            case kAudioFileUnsupportedPropertyError:
-                                print("kAudioFileUnsupportedPropertyError")
-                                break
-                            case kAudioFileBadPropertySizeError:
-                                print("kAudioFileBadPropertySizeError")
-                                break
-                            default:
-                                print("unknown error")
-                                break
+                        case kAudioFilePermissionsError:
+                            print("kAudioFilePermissionsError")
+                            break
+                        case kAudioFileNotOptimizedError:
+                            print("kAudioFileNotOptimizedError")
+                            break
+                        case kAudioFileInvalidChunkError:
+                            print("kAudioFileInvalidChunkError")
+                            break
+                        case kAudioFileDoesNotAllow64BitDataSizeError:
+                            print("kAudioFileDoesNotAllow64BitDataSizeError")
+                            break
+                        case kAudioFileInvalidPacketOffsetError:
+                            print("kAudioFileInvalidPacketOffsetError")
+                            break
+                        case kAudioFileInvalidFileError:
+                            print("kAudioFileInvalidFileError")
+                            break
+                        case kAudioFileOperationNotSupportedError:
+                            print("kAudioFileOperationNotSupportedError")
+                            break
+                        case kAudioFileNotOpenError:
+                            print("kAudioFileNotOpenError")
+                            break
+                        case kAudioFileEndOfFileError:
+                            print("kAudioFileEndOfFileError")
+                            break
+                        case kAudioFilePositionError:
+                            print("kAudioFilePositionError")
+                            break
+                        case kAudioFileFileNotFoundError:
+                            print("kAudioFileFileNotFoundError")
+                            break
+                        case kAudioFileUnspecifiedError:
+                            print("kAudioFileUnspecifiedError")
+                            break
+                        case kAudioFileUnsupportedFileTypeError:
+                            print("kAudioFileUnsupportedFileTypeError")
+                            break
+                        case kAudioFileUnsupportedDataFormatError:
+                            print("kAudioFileUnsupportedDataFormatError")
+                            break
+                        case kAudioFileUnsupportedPropertyError:
+                            print("kAudioFileUnsupportedPropertyError")
+                            break
+                        case kAudioFileBadPropertySizeError:
+                            print("kAudioFileBadPropertySizeError")
+                            break
+                        default:
+                            print("unknown error")
+                            break
                         }
                         //<----DEBUG
                     }
@@ -195,57 +219,57 @@ class SpeechRecorder: NSObject {
                         //<----DEBUG
                         switch outputStream
                         {
-                            case kAudioFilePermissionsError:
-                                print("kAudioFilePermissionsError")
-                                break
-                            case kAudioFileNotOptimizedError:
-                                print("kAudioFileNotOptimizedError")
-                                break
-                            case kAudioFileInvalidChunkError:
-                                print("kAudioFileInvalidChunkError")
-                                break
-                            case kAudioFileDoesNotAllow64BitDataSizeError:
-                                print("kAudioFileDoesNotAllow64BitDataSizeError")
-                                break
-                            case kAudioFileInvalidPacketOffsetError:
-                                print("kAudioFileInvalidPacketOffsetError")
-                                break
-                            case kAudioFileInvalidFileError:
-                                print("kAudioFileInvalidFileError")
-                                break
-                            case kAudioFileOperationNotSupportedError:
-                                print("kAudioFileOperationNotSupportedError")
-                                break
-                            case kAudioFileNotOpenError:
-                                print("kAudioFileNotOpenError")
-                                break
-                            case kAudioFileEndOfFileError:
-                                print("kAudioFileEndOfFileError")
-                                break
-                            case kAudioFilePositionError:
-                                print("kAudioFilePositionError")
-                                break
-                            case kAudioFileFileNotFoundError:
-                                print("kAudioFileFileNotFoundError")
-                                break
-                            case kAudioFileUnspecifiedError:
-                                print("kAudioFileUnspecifiedError")
-                                break
-                            case kAudioFileUnsupportedFileTypeError:
-                                print("kAudioFileUnsupportedFileTypeError")
-                                break
-                            case kAudioFileUnsupportedDataFormatError:
-                                print("kAudioFileUnsupportedDataFormatError")
-                                break
-                            case kAudioFileUnsupportedPropertyError:
-                                print("kAudioFileUnsupportedPropertyError")
-                                break
-                            case kAudioFileBadPropertySizeError:
-                                print("kAudioFileBadPropertySizeError")
-                                break
-                            default:
-                                print("unknown error")
-                                break
+                        case kAudioFilePermissionsError:
+                            print("kAudioFilePermissionsError")
+                            break
+                        case kAudioFileNotOptimizedError:
+                            print("kAudioFileNotOptimizedError")
+                            break
+                        case kAudioFileInvalidChunkError:
+                            print("kAudioFileInvalidChunkError")
+                            break
+                        case kAudioFileDoesNotAllow64BitDataSizeError:
+                            print("kAudioFileDoesNotAllow64BitDataSizeError")
+                            break
+                        case kAudioFileInvalidPacketOffsetError:
+                            print("kAudioFileInvalidPacketOffsetError")
+                            break
+                        case kAudioFileInvalidFileError:
+                            print("kAudioFileInvalidFileError")
+                            break
+                        case kAudioFileOperationNotSupportedError:
+                            print("kAudioFileOperationNotSupportedError")
+                            break
+                        case kAudioFileNotOpenError:
+                            print("kAudioFileNotOpenError")
+                            break
+                        case kAudioFileEndOfFileError:
+                            print("kAudioFileEndOfFileError")
+                            break
+                        case kAudioFilePositionError:
+                            print("kAudioFilePositionError")
+                            break
+                        case kAudioFileFileNotFoundError:
+                            print("kAudioFileFileNotFoundError")
+                            break
+                        case kAudioFileUnspecifiedError:
+                            print("kAudioFileUnspecifiedError")
+                            break
+                        case kAudioFileUnsupportedFileTypeError:
+                            print("kAudioFileUnsupportedFileTypeError")
+                            break
+                        case kAudioFileUnsupportedDataFormatError:
+                            print("kAudioFileUnsupportedDataFormatError")
+                            break
+                        case kAudioFileUnsupportedPropertyError:
+                            print("kAudioFileUnsupportedPropertyError")
+                            break
+                        case kAudioFileBadPropertySizeError:
+                            print("kAudioFileBadPropertySizeError")
+                            break
+                        default:
+                            print("unknown error")
+                            break
                         }
                         //<----DEBUG
                     }
@@ -267,8 +291,7 @@ class SpeechRecorder: NSObject {
         }
         else
         {
-            print("Error setting audio input.")
-            handler?(.error)
+            handler?(.error, nil, "Error setting audio input.")
         }
     }//eom
     
@@ -281,7 +304,8 @@ class SpeechRecorder: NSObject {
             AudioQueueDispose(recordingState.queue.pointee!, true)
             AudioFileClose(recordingState.file!)
             
-            handler?(.ready)
+            let audioData:NSData? = NSData(contentsOf: audioURL!)
+            handler?(.ready, audioData, nil)
         }
     }//eom
     
@@ -333,7 +357,7 @@ class SpeechRecorder: NSObject {
         propertySize.deallocate(capacity: 1)
         
         if queueResults != 0 {
-            print("Unable to get audio queue property.")
+            handler?(.error, nil, "Unable to get audio queue property.")
         }
     }//eom
 }
