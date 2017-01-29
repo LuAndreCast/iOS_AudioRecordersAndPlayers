@@ -4,7 +4,7 @@ import Foundation
 
 @objc class MyFileManager:NSObject
 {
-     private let unique_debug = true
+     private let unique_debug = false
      private var _temporyDirectory:String = ""
 
     //MARK: - Properties

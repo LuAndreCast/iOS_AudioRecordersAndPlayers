@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F71577DD1DDA220500D42450 /* SpeechRecorderV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71577DC1DDA220500D42450 /* SpeechRecorderV1.swift */; };
 		F7470C0C1DD68D1E0062E885 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */; };
 		F7470C0E1DD68D1E0062E885 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C0D1DD68D1E0062E885 /* ViewController.swift */; };
 		F7470C111DD68D1E0062E885 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7470C0F1DD68D1E0062E885 /* Main.storyboard */; };
 		F7470C131DD68D1E0062E885 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7470C121DD68D1E0062E885 /* Assets.xcassets */; };
 		F7470C161DD68D1E0062E885 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7470C141DD68D1E0062E885 /* LaunchScreen.storyboard */; };
-		F7470C211DD68DFF0062E885 /* SpeechRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */; };
 		F7470C231DD694290062E885 /* Unique.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7470C221DD694290062E885 /* Unique.Utilities.swift */; };
+		F7E20A1A1DDA3BD4006437C3 /* SpeechRecorderV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E20A191DDA3BD4006437C3 /* SpeechRecorderV2.swift */; };
+		F7E20A1D1DDA3F45006437C3 /* AModelClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E20A1C1DDA3F45006437C3 /* AModelClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F71577DC1DDA220500D42450 /* SpeechRecorderV1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeechRecorderV1.swift; path = Recorder/SpeechRecorderV1.swift; sourceTree = "<group>"; };
 		F7470C081DD68D1E0062E885 /* LPCMrecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LPCMrecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7470C0D1DD68D1E0062E885 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -24,8 +27,9 @@
 		F7470C121DD68D1E0062E885 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7470C151DD68D1E0062E885 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F7470C171DD68D1E0062E885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeechRecorder.swift; path = Recorders/SpeechRecorder.swift; sourceTree = "<group>"; };
 		F7470C221DD694290062E885 /* Unique.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Unique.Utilities.swift; sourceTree = "<group>"; };
+		F7E20A191DDA3BD4006437C3 /* SpeechRecorderV2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeechRecorderV2.swift; path = Recorder/SpeechRecorderV2.swift; sourceTree = "<group>"; };
+		F7E20A1C1DDA3F45006437C3 /* AModelClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AModelClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,24 +62,26 @@
 		F7470C0A1DD68D1E0062E885 /* LPCMrecorder */ = {
 			isa = PBXGroup;
 			children = (
-				F7470C1D1DD68D2D0062E885 /* Recorder */,
 				F7470C0B1DD68D1E0062E885 /* AppDelegate.swift */,
 				F7470C0D1DD68D1E0062E885 /* ViewController.swift */,
-				F7470C221DD694290062E885 /* Unique.Utilities.swift */,
+				F7E20A1C1DDA3F45006437C3 /* AModelClass.swift */,
 				F7470C0F1DD68D1E0062E885 /* Main.storyboard */,
 				F7470C121DD68D1E0062E885 /* Assets.xcassets */,
 				F7470C141DD68D1E0062E885 /* LaunchScreen.storyboard */,
 				F7470C171DD68D1E0062E885 /* Info.plist */,
+				F7470C1D1DD68D2D0062E885 /* Recorders */,
 			);
 			path = LPCMrecorder;
 			sourceTree = "<group>";
 		};
-		F7470C1D1DD68D2D0062E885 /* Recorder */ = {
+		F7470C1D1DD68D2D0062E885 /* Recorders */ = {
 			isa = PBXGroup;
 			children = (
-				F7470C201DD68DFF0062E885 /* SpeechRecorder.swift */,
+				F7E20A191DDA3BD4006437C3 /* SpeechRecorderV2.swift */,
+				F71577DC1DDA220500D42450 /* SpeechRecorderV1.swift */,
+				F7470C221DD694290062E885 /* Unique.Utilities.swift */,
 			);
-			name = Recorder;
+			name = Recorders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,9 +158,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7470C0E1DD68D1E0062E885 /* ViewController.swift in Sources */,
-				F7470C211DD68DFF0062E885 /* SpeechRecorder.swift in Sources */,
+				F71577DD1DDA220500D42450 /* SpeechRecorderV1.swift in Sources */,
 				F7470C231DD694290062E885 /* Unique.Utilities.swift in Sources */,
 				F7470C0C1DD68D1E0062E885 /* AppDelegate.swift in Sources */,
+				F7E20A1D1DDA3F45006437C3 /* AModelClass.swift in Sources */,
+				F7E20A1A1DDA3BD4006437C3 /* SpeechRecorderV2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +324,7 @@
 				F7470C1C1DD68D1E0062E885 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
