@@ -1,10 +1,10 @@
-//
-//  AudioQueueRecorderAndPlayer.m
-//  AudioQueueServices
-//
-//  Created by Luis Castillo on 1/28/17.
-//  Copyright © 2017 lc. All rights reserved.
-//
+    //
+    //  AudioQueueRecorderAndPlayer.m
+    //  AudioQueueServices
+    //
+    //  Created by Luis Castillo on 1/28/17.
+    //  Copyright © 2017 lc. All rights reserved.
+    //
 
 #import "AudioQueueRecorderAndPlayer.h"
 
@@ -14,7 +14,6 @@ static BOOL verboseRecorderPlayer = TRUE;
 
 #pragma mark - properties
 static SInt64 currentByte;
-
 
 //#define NUM_BUFFERS 10
 #define NUM_BUFFERS 1
@@ -39,19 +38,19 @@ static AudioFileID audioFileID;
 
 #pragma mark - Setup
 - (void) setup {
-//    audioFormat.mSampleRate = 44100.00;
+        //    audioFormat.mSampleRate = 44100.00;
     audioFormat.mSampleRate = 16000.00;
     audioFormat.mFormatID = kAudioFormatLinearPCM;
-//    audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+        //    audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
     audioFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
     audioFormat.mFramesPerPacket = 1;
     audioFormat.mChannelsPerFrame = 1;
     audioFormat.mBitsPerChannel = 16;
-//    audioFormat.mBytesPerFrame = audioFormat.mChannelsPerFrame * sizeof(SInt16);
+        //    audioFormat.mBytesPerFrame = audioFormat.mChannelsPerFrame * sizeof(SInt16);
     audioFormat.mBytesPerFrame = ((audioFormat.mChannelsPerFrame * audioFormat.mBitsPerChannel) / 8);
     audioFormat.mBytesPerPacket = audioFormat.mFramesPerPacket * audioFormat.mBytesPerFrame;
     
-    //init state - idle
+        //init state - idle
     self.currentState = AudioQueueState_Idle;
 }//eom
 
@@ -61,17 +60,11 @@ static AudioFileID audioFileID;
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (granted) {
             [delegate authorization:granted];
-            if (verboseRecorderPlayer)
-            {
-                NSLog(@"Authorization microphone - ACCEPTED");
-            }
+            if (verboseRecorderPlayer){ NSLog(@"Authorization microphone - ACCEPTED"); }
         }
         else {
             [delegate authorization:granted];
-            if (verboseRecorderPlayer)
-            {
-                NSLog(@"Authorization microphone - REJECTED");
-            }
+            if (verboseRecorderPlayer) {  NSLog(@"Authorization microphone - REJECTED");  }
         }
     }];
 }//eom
@@ -84,10 +77,10 @@ static AudioFileID audioFileID;
             [self startRecording];
             break;
         case AudioQueueState_Playing:
-            //do nothing since audio is being played
+                //do nothing since audio is being played
             break;
         case AudioQueueState_Recording:
-                [self stopRecording];
+            [self stopRecording];
             break;
         default:
             break;
@@ -96,15 +89,12 @@ static AudioFileID audioFileID;
 
 -(void)startRecording
 {
-    //setting session values
+        //setting session values
     NSError *error;
     [[AVAudioSession sharedInstance] setActive:YES
                                          error:&error];
     if (error != nil) {
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"Error %@", error.localizedDescription);
-        }
+        if (verboseRecorderPlayer){ NSLog(@"Error %@", error.localizedDescription);  }
         
         [delegate recorderStarted:false];
         return;
@@ -113,10 +103,7 @@ static AudioFileID audioFileID;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord
                                            error:&error];
     if (error != nil) {
-        if (verboseRecorderPlayer)
-            {
-            NSLog(@"Error %@", error.localizedDescription);
-            }
+        if (verboseRecorderPlayer){  NSLog(@"Error %@", error.localizedDescription); }
         
         [delegate recorderStarted:false];
         return;
@@ -124,16 +111,12 @@ static AudioFileID audioFileID;
     
     [[AVAudioSession sharedInstance]
      requestRecordPermission:^(BOOL granted)
-    {
-         if (granted)
-         {
+     {
+        if (granted) {
              [delegate authorization:true];
-             if (verboseRecorderPlayer)
-             {
-                 NSLog(@"Authorization microphone - ACCEPTED");
-             }
-         
-             //updating state
+             if (verboseRecorderPlayer){  NSLog(@"Authorization microphone - ACCEPTED"); }
+             
+                 //updating state
              self.currentState = AudioQueueState_Recording;
              
              currentByte = 0;
@@ -148,27 +131,21 @@ static AudioFileID audioFileID;
                                          0, &queue);
              
              if (status != noErr) {
-                 if (verboseRecorderPlayer)
-                     {
-                     NSLog(@"Error on 'AudioQueueNewInput' | status code %d", (int)status);
-                     }
-                 
+                 if (verboseRecorderPlayer){
+                     [self printOSStatusError:status withMessage:@"Error on 'AudioQueueNewInput' "];
+                 }
                  [delegate recorderStarted:false];
                  return;
              }
              
-             for (int i = 0; i < NUM_BUFFERS; i++)
-             {
+             for (int i = 0; i < NUM_BUFFERS; i++){
                  status = AudioQueueAllocateBuffer(queue,
                                                    16000,
                                                    &buffers[i]);
                  if (status != noErr) {
-                     if (verboseRecorderPlayer)
-                         if (verboseRecorderPlayer)
-                         {
-                             NSLog(@"Error on 'AudioQueueAllocateBuffer' | status code %d", (int)status);
-                         }
-                     
+                     if (verboseRecorderPlayer){
+                         [self printOSStatusError:status withMessage:@"Error on 'AudioQueueAllocateBuffer' "];
+                     }
                      [delegate recorderStarted:false];
                      return;
                  }
@@ -178,11 +155,9 @@ static AudioFileID audioFileID;
                                                   0,
                                                   NULL);
                  if (status != noErr) {
-                     if (verboseRecorderPlayer)
-                     {
-                         NSLog(@"Error on 'AudioQueueEnqueueBuffer' | status code %d", (int)status);
+                     if (verboseRecorderPlayer){
+                         [self printOSStatusError:status withMessage:@"Error on 'AudioQueueEnqueueBuffer' "];
                      }
-                     
                      [delegate recorderStarted:false];
                      return;
                  }
@@ -198,42 +173,35 @@ static AudioFileID audioFileID;
                                              kAudioFileFlags_EraseFile, &audioFileID);
              
              if (status != noErr) {
-                 if (verboseRecorderPlayer)
-                     {
-                     NSLog(@"Error on 'AudioFileCreateWithURL' | status code %d", (int)status);
-                     }
-                 
+                 if (verboseRecorderPlayer){
+                     [self printOSStatusError:status withMessage:@"Error on 'AudioFileCreateWithURL' "];
+                 }
                  [delegate recorderStarted:false];
                  return;
              }
              
              status = AudioQueueStart(queue, NULL);
              if (status != noErr) {
-                 if (verboseRecorderPlayer)
-                     {
-                     NSLog(@"Error on 'AudioQueueStart' | status code %d", (int)status);
-                     }
+                 if (verboseRecorderPlayer){
+                     [self printOSStatusError:status withMessage:@"Error on 'AudioQueueStart' "];
+                 }
                  
                  [delegate recorderStarted:false];
                  return;
              }
-         
+             
              //success
-            [delegate recorderStarted:true];
+             [delegate recorderStarted:true];
          }
          else
          {
-             if (verboseRecorderPlayer)
-             {
-                 NSLog(@"Authorization microphone - REJECTED");
-             }
+             if (verboseRecorderPlayer) { NSLog(@"Authorization microphone - REJECTED"); }
              
              [delegate authorization:false];
              [delegate recorderStarted:false];
              return;
          }
      }];
-    
 }//eom
 
 -(void)stopRecording
@@ -249,10 +217,7 @@ static AudioFileID audioFileID;
     AudioQueueDispose(queue, true);
     AudioFileClose(audioFileID);
     
-    if (verboseRecorderPlayer)
-    {
-        NSLog(@"Recorder ended");
-    }
+    if (verboseRecorderPlayer) {  NSLog(@"Recorder ended");  }
     
     [delegate recorderEnded:true];
 }//eom
@@ -272,11 +237,11 @@ void AudioInputCallback(
                         )
 {
     
-        //    ViewController *viewController = (__bridge ViewController*)inUserData;
-        //
-        //    if (viewController.currentState != AudioQueueState_Recording) {
-        //        return;
-        //    }
+    //    ViewController *viewController = (__bridge ViewController*)inUserData;
+    //
+    //    if (viewController.currentState != AudioQueueState_Recording) {
+    //        return;
+    //    }
     
     AudioQueueRecorderAndPlayer *audioClass = (__bridge AudioQueueRecorderAndPlayer*)inUserData;
     if (audioClass.currentState != AudioQueueState_Recording) {
@@ -292,10 +257,9 @@ void AudioInputCallback(
                                           inBuffer->mAudioData);
     
     if (status != noErr) {
-        if (verboseRecorderPlayer)
-            {
-            NSLog(@"Error on 'AudioFileWriteBytes' | status code %d", (int)status);
-            }
+        if (verboseRecorderPlayer){
+            [audioClass printOSStatusError:status withMessage:@"Error on 'AudioFileWriteBytes' "];
+        }
         
         [audioClass.delegate recorderErrorOccurred];
         return;
@@ -305,10 +269,7 @@ void AudioInputCallback(
     
     status = AudioQueueEnqueueBuffer(queue, inBuffer, 0, NULL);
     
-    if (verboseRecorderPlayer)
-    {
-        NSLog(@"[AudioInputCallback] recording...");
-    }
+    if (verboseRecorderPlayer){ NSLog(@"[AudioInputCallback] recording..."); }
 }//eom
 
 
@@ -324,10 +285,8 @@ void AudioInputCallback(
             [self stopPlayback];
             return;
         case AudioQueueState_Recording:
-                //TODO: handle error
-            
                 //we should not be recorder - stop it!
-                [self stopRecording];
+            [self stopRecording];
             break;
         default:
             break;
@@ -339,11 +298,7 @@ void AudioInputCallback(
     NSError *error;
     [[AVAudioSession sharedInstance] setActive:YES error:&error];
     if (error != nil) {
-        
-        if (verboseRecorderPlayer)
-        {
-           NSLog(@"Error %@", error.localizedDescription);
-        }
+        if (verboseRecorderPlayer){ NSLog(@"Error %@", error.localizedDescription); }
         
         [delegate playerErrorOccurred];
         return;
@@ -352,11 +307,8 @@ void AudioInputCallback(
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
                                            error:&error];
     if (error != nil) {
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"Error %@", error.localizedDescription);
-        }
-    
+        if (verboseRecorderPlayer) {  NSLog(@"Error %@", error.localizedDescription); }
+        
         [delegate playerErrorOccurred];
         return;
     }
@@ -368,9 +320,8 @@ void AudioInputCallback(
                                        &audioFileID);
     
     if (status != noErr) {
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"Error on 'AudioFileOpenURL' | status code %d", (int)status);
+        if (verboseRecorderPlayer){
+            [self printOSStatusError:status withMessage:@"Error on 'AudioFileOpenURL' "];
         }
         
         [delegate playerStarted:false];
@@ -385,9 +336,8 @@ void AudioInputCallback(
                                  0,
                                  &queue);
     if (status != noErr) {
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"Error on 'AudioQueueNewOutput' | status code %d", (int)status);
+        if (verboseRecorderPlayer){
+            [self printOSStatusError:status withMessage:@"Error on 'AudioQueueNewOutput' "];
         }
         
         [delegate playerStarted:false];
@@ -397,15 +347,14 @@ void AudioInputCallback(
     self.currentState = AudioQueueState_Playing;
     
     for (int i = 0; i < NUM_BUFFERS
-                    && self.currentState == AudioQueueState_Playing; i++)
-    {
+         && self.currentState == AudioQueueState_Playing; i++)
+        {
         status = AudioQueueAllocateBuffer(queue,
                                           16000,
                                           &buffers[i]);
         if (status != noErr) {
-            if (verboseRecorderPlayer)
-            {
-                NSLog(@"Error on 'AudioQueueAllocateBuffer' | status code %d", (int)status);
+            if (verboseRecorderPlayer){
+                [self printOSStatusError:status withMessage:@"Error on 'AudioQueueAllocateBuffer' "];
             }
             
             [delegate playerStarted:false];
@@ -415,42 +364,36 @@ void AudioInputCallback(
         AudioOutputCallback((__bridge void*)self,
                             queue,
                             buffers[i]);
-    }//eofl
+        }//eofl
     
     status = AudioQueueStart(queue, NULL);
     if (status != noErr) {
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"Error on 'AudioQueueStart' | status code %d", (int)status);
+        if (verboseRecorderPlayer){
+            [self printOSStatusError:status withMessage:@"Error on 'AudioQueueStart' "];
         }
         
         [delegate playerStarted:false];
         return;
     }
     
-    //success
+        //success
     [delegate playerStarted:true];
 }//eom
 
 -(void)stopPlayback
 {
     self.currentState = AudioQueueState_Idle;
-
+    
     for (int i = 0; i < NUM_BUFFERS; i++) {
         AudioQueueFreeBuffer(queue, buffers[i]);
     }//eofl
-
+    
     AudioQueueDispose(queue, true);
     AudioFileClose(audioFileID);
     
-    if (verboseRecorderPlayer)
-    {
-        NSLog(@"Played ended");
-    }
+    if (verboseRecorderPlayer) { NSLog(@"Played ended");  }
     
     [delegate playerEnded:true];
-    
-    
 }//eom
 
 
@@ -465,11 +408,11 @@ void AudioOutputCallback(void *inUserData,
                          )
 {
     
-        //    ViewController *viewController = (__bridge ViewController*)inUserData;
-        //
-        //    if (viewController.currentState != AudioQueueState_Playing) {
-        //        return;
-        //    }
+    //    ViewController *viewController = (__bridge ViewController*)inUserData;
+    //
+    //    if (viewController.currentState != AudioQueueState_Playing) {
+    //        return;
+    //    }
     
     AudioQueueRecorderAndPlayer *audioClass = (__bridge AudioQueueRecorderAndPlayer*)inUserData;
     if (audioClass.currentState != AudioQueueState_Playing) {
@@ -485,10 +428,9 @@ void AudioOutputCallback(void *inUserData,
                                          outBuffer->mAudioData);
     
     if (status != noErr && status != kAudioFileEndOfFileError) {
-        if (verboseRecorderPlayer)
-            {
-            NSLog(@"Error on 'AudioFileReadBytes' | status code %d", (int)status);
-            }
+        if (verboseRecorderPlayer){
+            [audioClass printOSStatusError:status withMessage:@"Error on 'AudioFileReadBytes' "];
+        }
         
         [audioClass.delegate playerErrorOccurred];
         return;
@@ -501,34 +443,88 @@ void AudioOutputCallback(void *inUserData,
                                                            0,
                                                            NULL);
         if (statusOfEnqueue != noErr) {
-            if (verboseRecorderPlayer)
-                {
-                NSLog(@"Error on 'AudioQueueEnqueueBuffer' | status code %d", (int)status);
-                }
-            
-            [audioClass.delegate playerErrorOccurred];
-            return;
-        }
-        
-        currentByte += numBytes;
-    }
+            if (verboseRecorderPlayer){
+                [audioClass printOSStatusError:status withMessage:@"Error on 'AudioQueueEnqueueBuffer' "];
+            }
+                 
+             [audioClass.delegate playerErrorOccurred];
+             return;
+         }
+         
+         currentByte += numBytes;
+     }
     
-    if (numBytes == 0 || status == kAudioFileEndOfFileError) {
-        AudioQueueStop(queue,false);
-        AudioFileClose(audioFileID);
-        
-            //resetting state
-            //        viewController.currentState = AudioQueueState_Idle;
-        audioClass.currentState = AudioQueueState_Idle;
-        
-        if (verboseRecorderPlayer)
-        {
-            NSLog(@"[AudioOutputCallback] finished recording");
-        }
-        
-        
-        [audioClass.delegate playerEnded:true];
+     if (numBytes == 0 || status == kAudioFileEndOfFileError) {
+         AudioQueueStop(queue,false);
+         AudioFileClose(audioFileID);
+         
+             //resetting state
+             //        viewController.currentState = AudioQueueState_Idle;
+         audioClass.currentState = AudioQueueState_Idle;
+         
+         if (verboseRecorderPlayer){  NSLog(@"[AudioOutputCallback] finished recording"); }
+         
+         [audioClass.delegate playerEnded:true];
+     }
+}//eom
+                 
+                 
+#pragma mark - Debug
+-(void)printOSStatusError:(OSStatus)status  withMessage:(NSString *)message
+{
+    switch (status) {
+        case kAudioFilePermissionsError:
+            NSLog(@"%@ | kAudioFilePermissionsError", message);
+            break;
+        case kAudioFileNotOptimizedError:
+            NSLog(@"%@ | kAudioFileNotOptimizedError", message);
+            break;
+        case kAudioFileInvalidChunkError:
+            NSLog(@"%@ | kAudioFileInvalidChunkError", message);
+            break;
+        case kAudioFileDoesNotAllow64BitDataSizeError:
+            NSLog(@"%@ | kAudioFileDoesNotAllow64BitDataSizeError", message);
+            break;
+        case kAudioFileInvalidPacketOffsetError:
+            NSLog(@"%@ | kAudioFileInvalidPacketOffsetError", message);
+            break;
+        case kAudioFileInvalidFileError:
+            NSLog(@"%@ | kAudioFileInvalidFileError", message);
+            break;
+        case kAudioFileOperationNotSupportedError:
+            NSLog(@"%@ | kAudioFileOperationNotSupportedError", message);
+            break;
+        case kAudioFileNotOpenError:
+            NSLog(@"%@ | kAudioFileNotOpenError", message);
+            break;
+        case kAudioFileEndOfFileError:
+            NSLog(@"%@ | kAudioFileEndOfFileError", message);
+            break;
+        case kAudioFilePositionError:
+            NSLog(@"%@ | kAudioFilePositionError", message);
+            break;
+        case kAudioFileFileNotFoundError:
+            NSLog(@"%@ | kAudioFileFileNotFoundError", message);
+            break;
+        case kAudioFileUnspecifiedError:
+            NSLog(@"%@ | kAudioFileUnspecifiedError", message);
+            break;
+        case kAudioFileUnsupportedFileTypeError:
+            NSLog(@"%@ | kAudioFileUnsupportedFileTypeError", message);
+            break;
+        case kAudioFileUnsupportedDataFormatError:
+            NSLog(@"%@ | kAudioFileUnsupportedDataFormatError", message);
+            break;
+        case kAudioFileUnsupportedPropertyError:
+            NSLog(@"%@ | kAudioFileUnsupportedPropertyError", message);
+            break;
+        case kAudioFileBadPropertySizeError:
+            NSLog(@"%@ | kAudioFileBadPropertySizeError", message);
+            break;
+        default:
+            NSLog(@"%@ | unknown OSStatus error", message);
+            break;
     }
 }//eom
-
+                 
 @end
