@@ -1,9 +1,9 @@
 //
-//  AudioQueueRecorder.m
+//  AudioQueueRecorderAndPlayer.m
 //  AudioQueueServices
 //
 //  Created by Luis Castillo on 1/28/17.
-//  Copyright © 2017 John Nastos. All rights reserved.
+//  Copyright © 2017 lc. All rights reserved.
 //
 
 #import "AudioQueueRecorderAndPlayer.h"
@@ -15,7 +15,9 @@ static BOOL verboseRecorderPlayer = TRUE;
 #pragma mark - properties
 static SInt64 currentByte;
 
-#define NUM_BUFFERS 10
+
+//#define NUM_BUFFERS 10
+#define NUM_BUFFERS 1
 static AudioStreamBasicDescription audioFormat;
 static AudioQueueRef queue;
 static AudioQueueBufferRef buffers[NUM_BUFFERS];
@@ -37,13 +39,16 @@ static AudioFileID audioFileID;
 
 #pragma mark - Setup
 - (void) setup {
-    audioFormat.mSampleRate = 44100.00;
+//    audioFormat.mSampleRate = 44100.00;
+    audioFormat.mSampleRate = 16000.00;
     audioFormat.mFormatID = kAudioFormatLinearPCM;
-    audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+//    audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
+    audioFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
     audioFormat.mFramesPerPacket = 1;
     audioFormat.mChannelsPerFrame = 1;
     audioFormat.mBitsPerChannel = 16;
-    audioFormat.mBytesPerFrame = audioFormat.mChannelsPerFrame * sizeof(SInt16);
+//    audioFormat.mBytesPerFrame = audioFormat.mChannelsPerFrame * sizeof(SInt16);
+    audioFormat.mBytesPerFrame = ((audioFormat.mChannelsPerFrame * audioFormat.mBitsPerChannel) / 8);
     audioFormat.mBytesPerPacket = audioFormat.mFramesPerPacket * audioFormat.mBytesPerFrame;
     
     //init state - idle
