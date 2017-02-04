@@ -34,12 +34,20 @@
 
 @property AudioQueueState currentState;
 @property (strong, nonatomic) NSURL *audioFileURL;
-
 @property (nonatomic, weak) id<AudioQueueRecorderAndPlayerDelegate>delegate;
 
++(AudioQueueRecorderAndPlayer *)sharedInstance;
+
+    //authorization
 -(void)requestPermission;
+
+    //recorder
 -(void)StartOrStopRecorder;
+
+    //player
 -(void)StartOrStopPlayer;
+-(BOOL)startPlayerWithData:(NSData *)data;
+
 
 
 @end

@@ -36,6 +36,19 @@ static AudioFileID audioFileID;
     return self;
 }//eom
 
+#pragma mark Shared Instance
++(AudioQueueRecorderAndPlayer *)sharedInstance
+{
+    static AudioQueueRecorderAndPlayer * sharedInstance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[self alloc] init];
+        
+    });
+    
+    return sharedInstance;
+}//eom
+
 #pragma mark - Setup
 - (void) setup {
         //    audioFormat.mSampleRate = 44100.00;
@@ -222,7 +235,7 @@ static AudioFileID audioFileID;
     [delegate recorderEnded:true];
 }//eom
 
-#pragma mark - Recorder Helper
+#pragma mark Recorder Helper
 
 /*
  Used in Recording
@@ -291,6 +304,23 @@ void AudioInputCallback(
         default:
             break;
     }
+}//eom
+
+-(BOOL)startPlayerWithData:(NSData *)data
+{
+    NSString * urlString  = [[NSString alloc] initWithData:data
+                                                  encoding:NSUTF8StringEncoding];
+    self.audioFileURL = [[NSURL alloc] initWithString:urlString];
+    
+    if (self.currentState == AudioQueueState_Idle) {
+        [self startPlayback];
+        return TRUE;
+    }
+    else
+        {
+            //Recorder/Player in Incorrect state
+        return FALSE;
+        }
 }//eom
 
 - (void) startPlayback {
